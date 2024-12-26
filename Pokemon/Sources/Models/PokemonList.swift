@@ -8,7 +8,7 @@
 import Foundation
 
 struct PokemonList: Codable {
-    let results: [String]
+    let results: [Pokemon]
 }
 
 struct Pokemon: Codable {
