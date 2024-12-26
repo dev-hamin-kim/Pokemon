@@ -20,7 +20,7 @@
 		956D04002D1AB6020002E592 /* Exceptions for "Pokemon" folder in "Pokemon" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				App/Info.plist,
 			);
 			target = 956D03ED2D1AB6000002E592 /* Pokemon */;
 		};
