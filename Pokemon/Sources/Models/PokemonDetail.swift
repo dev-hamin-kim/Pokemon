@@ -6,14 +6,14 @@
 //
 
 struct PokemonDetail: Codable {
-    let number: Int
+    let id: Int
     let name: String
-    let types: PokemonTypes
+    let types: [PokemonType]
     let height: Int
     let weight: Int
 }
 
-struct PokemonTypes: Codable {
+struct PokemonType: Codable {
     let slot: Int
     let type: String
 }

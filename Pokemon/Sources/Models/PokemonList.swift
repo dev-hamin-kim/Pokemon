@@ -12,6 +12,7 @@ struct PokemonList: Codable {
 }
 
 struct Pokemon: Codable {
+    let number: Int
     let name: String
     let url: URL
 }
