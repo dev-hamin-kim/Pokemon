@@ -14,15 +14,17 @@ final class PokemonListCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .cyan
         return imageView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemPink
+        backgroundColor = .pokemonCellBackground
         contentView.addSubview(imageView)
         setConstraints()
+        
+        imageView.layer.cornerRadius = 10
+        imageView.layer.masksToBounds = true
     }
     
     required init?(coder: NSCoder) {

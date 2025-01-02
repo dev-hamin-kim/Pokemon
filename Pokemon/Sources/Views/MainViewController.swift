@@ -24,6 +24,8 @@ final class MainViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        collectionView.backgroundColor = .pokemonDarkRed
+        
         return collectionView
     }()
 
@@ -48,7 +50,7 @@ final class MainViewController: UIViewController {
     }
     
     private func setUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .pokemonMainRed
         
         view.addSubview(collectionView)
     }
@@ -85,6 +87,7 @@ final class MainViewController: UIViewController {
 extension MainViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("selected: \(indexPath.item.description)")
         let detailVC = DetailViewController()
         navigationController?.pushViewController(detailVC, animated: true)
     }
