@@ -6,7 +6,9 @@
 //
 
 import Foundation
+import UIKit
 import RxSwift
+import Kingfisher
 
 class MainViewModel {
     
@@ -20,7 +22,7 @@ class MainViewModel {
         fetchPokemonList()
     }
     
-    func fetchPokemonList() {
+    private func fetchPokemonList() {
         guard let url = URL(string: "https://pokeapi.co/api/v2/pokemon?limit=\(limit)&offset=\(offset)") else {
             pokemonListSubject.onError(NetworkError.invalidURL)
             return

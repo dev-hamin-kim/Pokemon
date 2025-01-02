@@ -5,6 +5,8 @@
 //  Created by 김하민 on 12/26/24.
 //
 
+import Foundation
+
 struct PokemonDetail: Codable {
     let id: Int
     let name: String

@@ -6,20 +6,23 @@
 //
 
 import UIKit
+import SnapKit
 
 final class PokemonListCell: UICollectionViewCell {
     static let id = "PokemonListCell"
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
-        
+        imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .cyan
         return imageView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .systemPink
         contentView.addSubview(imageView)
-        imageView.frame = contentView.bounds
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -30,7 +33,14 @@ final class PokemonListCell: UICollectionViewCell {
         imageView.image = nil
     }
     
-    func setImage(with pokemon: Pokemon) {
-        
+    private func setConstraints() {
+        imageView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalToSuperview()
+        }
+    }
+    
+    func setImage(with image: UIImage) {
+        imageView.image = image
     }
 }
