@@ -15,7 +15,15 @@ final class MainViewController: UIViewController {
     private let mainViewModel = MainViewModel()
     private var pokemonList = [Pokemon]()
     private var imageList = [UIImage]()
+
     
+    private let pokeBall: UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.image = UIImage(resource: .pokeBall)
+        
+        return imageView
+    }()
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         
@@ -52,12 +60,22 @@ final class MainViewController: UIViewController {
     private func setUI() {
         view.backgroundColor = .pokemonMainRed
         
+        view.addSubview(pokeBall)
         view.addSubview(collectionView)
     }
     
     private func setConstraints() {
+        pokeBall.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().dividedBy(4)
+            make.height.equalTo(pokeBall.snp.width)
+        }
+        
         collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(pokeBall.snp.bottom).offset(20)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
