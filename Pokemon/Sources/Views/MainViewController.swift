@@ -24,6 +24,7 @@ final class MainViewController: UIViewController {
         
         return imageView
     }()
+    
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         
@@ -124,7 +125,6 @@ extension MainViewController: UICollectionViewDataSource {
         let url = URL(string: urlPrefix + "\(indexPath.item + 1).png")
         
         cell.imageView.kf.setImage(with: url, placeholder: UIImage(resource: .pokeBall))
-        collectionView.reloadData()
         
         return cell
     }

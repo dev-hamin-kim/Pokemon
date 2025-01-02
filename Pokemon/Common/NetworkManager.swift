@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 import RxSwift
 import Kingfisher
 
@@ -44,20 +43,6 @@ class NetworkManager {
                     observer(.failure(NetworkError.failedToDecode))
                 }
             }.resume()
-            
-            return Disposables.create()
-        }
-    }
-    
-    func fetchImageUsingKF(with url: URL) -> Single<UIImage> {
-        return Single.create { observer in
-            
-            KingfisherManager.shared.retrieveImage(with: url) { result in
-                switch result {
-                case .success(let value): observer(.success(value.image))
-                case .failure(let error): observer(.failure(error))
-                }
-            }
             
             return Disposables.create()
         }

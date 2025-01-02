@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import UIKit
 import RxSwift
 import Kingfisher
 
-class MainViewModel {
+final class MainViewModel {
     
     private let limit = 20
     private let offset = 0
