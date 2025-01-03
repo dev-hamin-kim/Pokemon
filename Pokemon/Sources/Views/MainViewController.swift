@@ -14,7 +14,6 @@ final class MainViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let mainViewModel = MainViewModel()
     private var pokemonList = [Pokemon]()
-    private var imageList = [UIImage]()
 
     
     private let pokeBall: UIImageView = {
@@ -107,7 +106,7 @@ extension MainViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("selected: \(indexPath.item.description)")
-        let detailVC = DetailViewController()
+        let detailVC = DetailViewController(with: indexPath.item + 1)
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }

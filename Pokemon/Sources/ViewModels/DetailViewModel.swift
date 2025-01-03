@@ -17,6 +17,7 @@ final class DetailViewModel {
     
     init(of pokemonID: Int) {
         self.pokemonID = pokemonID
+        fetchPokemonDetails()
     }
     
     private func fetchPokemonDetails() {

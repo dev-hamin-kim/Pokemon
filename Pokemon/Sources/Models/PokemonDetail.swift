@@ -9,13 +9,18 @@ import Foundation
 
 struct PokemonDetail: Codable {
     let id: Int
-    let name: String
-    let types: [PokemonType]
-    let height: Int
-    let weight: Int
+    var name: String = ""
+    var types: [PokemonType] = []
+    var height: Int = 0
+    var weight: Int = 0
 }
 
 struct PokemonType: Codable {
     let slot: Int
-    let type: String
+    let type: TypeInfo
+}
+
+struct TypeInfo: Codable {
+    let name: String
+    let url: URL
 }
