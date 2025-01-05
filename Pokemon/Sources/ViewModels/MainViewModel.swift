@@ -15,7 +15,7 @@ final class MainViewModel {
     private let offset = 0
     private let disposeBag = DisposeBag()
     
-    let pokemonListSubject = BehaviorSubject(value: [Pokemon]())
+    let pokemonListSubject = BehaviorSubject(value: [Result]())
     
     init() {
         fetchPokemonList()

@@ -13,7 +13,7 @@ final class MainViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     private let mainViewModel = MainViewModel()
-    private var pokemonList = [Pokemon]()
+    private var pokemonList = [Result]()
 
     
     private let pokeBall: UIImageView = {

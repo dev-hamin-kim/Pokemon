@@ -32,6 +32,7 @@ final class DetailViewController: UIViewController {
     private let numberLabel: UILabel = {
         let label = UILabel()
         
+        label.text = "???"
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textColor = .white
         label.textAlignment = .center
@@ -42,6 +43,7 @@ final class DetailViewController: UIViewController {
     private let nameLabel: UILabel = {
         let label = UILabel()
         
+        label.text = "???"
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textColor = .white
         label.textAlignment = .center
@@ -52,6 +54,7 @@ final class DetailViewController: UIViewController {
     private let typeLabel: UILabel = {
         let label = UILabel()
         
+        label.text = "???"
         label.font = .systemFont(ofSize: 16)
         label.textColor = .white
         label.textAlignment = .center
@@ -62,6 +65,7 @@ final class DetailViewController: UIViewController {
     private let heightLabel: UILabel = {
         let label = UILabel()
         
+        label.text = "???"
         label.font = .systemFont(ofSize: 16)
         label.textColor = .white
         label.textAlignment = .center
@@ -72,6 +76,7 @@ final class DetailViewController: UIViewController {
     private let weightLabel: UILabel = {
         let label = UILabel()
         
+        label.text = "???"
         label.font = .systemFont(ofSize: 16)
         label.textColor = .white
         label.textAlignment = .center
@@ -118,6 +123,8 @@ final class DetailViewController: UIViewController {
     // MARK: - View Controller initializer
     convenience init(with pokemonID: Int) {
         self.init(nibName: nil, bundle: nil, with: pokemonID)
+        bind()
+        print("DetailVC Initialized")
     }
     
     init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, with pokemonID: Int) {
@@ -133,8 +140,6 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .pokemonMainRed
-//        setDefaultValue()
-        bind()
         view.addSubview(stackView)
         setConstraints()
         print("DetailVC loaded")
@@ -146,13 +151,21 @@ final class DetailViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] details in
                 self?.numberLabel.text = details.id.description
-                self?.nameLabel.text = details.name
-                self?.typeLabel.text = details.types.first?.type.name
+                self?.typeLabel.text = details.types.first?.type.name.inKorean
                 self?.heightLabel.text = details.height.description
                 self?.weightLabel.text = details.weight.description
             }, onError: { error in
                 print("error: \(error)")
             }).disposed(by: disposeBag)
+        
+        detailViewModel.namesSubject
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] pokemon in
+                self?.nameLabel.text = pokemon.names.first(where: { $0.language.name == "ko" })?.name
+            }, onError: { error in
+                print("error: \(error)")
+            }).disposed(by: disposeBag)
+        
     }
     
     private func setConstraints() {
@@ -174,13 +187,5 @@ final class DetailViewController: UIViewController {
             
         }
         
-    }
-    
-    private func setDefaultValue() {
-        numberLabel.text = "???"
-        nameLabel.text = "???"
-        typeLabel.text = "???"
-        heightLabel.text = "Height: ???"
-        weightLabel.text = "Weight: ???"
     }
 }
