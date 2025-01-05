@@ -17,6 +17,15 @@ final class DetailViewController: UIViewController {
     private lazy var detailViewModel = DetailViewModel(of: pokemonID)
     
     // MARK: - UI Components
+    private let redBackground: UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = .pokemonDarkRed
+        view.layer.cornerRadius = 16
+        
+        return view
+    }()
+    
     private lazy var pokemonImage: UIImageView = {
         let imageView = UIImageView()
         let urlPrefix = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"
@@ -32,8 +41,8 @@ final class DetailViewController: UIViewController {
     private let numberLabel: UILabel = {
         let label = UILabel()
         
-        label.text = "???"
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.text = "No. ???"
+        label.font = .systemFont(ofSize: 26, weight: .bold)
         label.textColor = .white
         label.textAlignment = .center
         
@@ -44,7 +53,7 @@ final class DetailViewController: UIViewController {
         let label = UILabel()
         
         label.text = "???"
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.font = .systemFont(ofSize: 26, weight: .bold)
         label.textColor = .white
         label.textAlignment = .center
         
@@ -54,8 +63,8 @@ final class DetailViewController: UIViewController {
     private let typeLabel: UILabel = {
         let label = UILabel()
         
-        label.text = "???"
-        label.font = .systemFont(ofSize: 16)
+        label.text = "타입: ???"
+        label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .white
         label.textAlignment = .center
         
@@ -65,8 +74,8 @@ final class DetailViewController: UIViewController {
     private let heightLabel: UILabel = {
         let label = UILabel()
         
-        label.text = "???"
-        label.font = .systemFont(ofSize: 16)
+        label.text = "키: ???"
+        label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .white
         label.textAlignment = .center
         
@@ -76,8 +85,8 @@ final class DetailViewController: UIViewController {
     private let weightLabel: UILabel = {
         let label = UILabel()
         
-        label.text = "???"
-        label.font = .systemFont(ofSize: 16)
+        label.text = "몸무게: ???"
+        label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .white
         label.textAlignment = .center
         
@@ -89,11 +98,8 @@ final class DetailViewController: UIViewController {
         let stackView = UIStackView()
         
         let stacks = [numberLabel, nameLabel]
-        
         stacks.forEach { stackView.addArrangedSubview($0) }
-        
         stackView.axis = .horizontal
-        stackView.spacing = 10
         
         return stackView
     }()
@@ -102,7 +108,6 @@ final class DetailViewController: UIViewController {
         let stackView = UIStackView()
         
         let stacks = [
-            pokemonImage,
             numberAndNameStack,
             typeLabel,
             heightLabel,
@@ -111,11 +116,10 @@ final class DetailViewController: UIViewController {
         
         stacks.forEach { stackView.addArrangedSubview($0) }
         
-        stackView.backgroundColor = .pokemonDarkRed
         stackView.axis = .vertical
-        stackView.spacing = 10
+        stackView.spacing = 3
         stackView.alignment = .fill
-        stackView.distribution = .fill
+        stackView.distribution = .equalSpacing
         
         return stackView
     }()
@@ -140,6 +144,8 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .pokemonMainRed
+        view.addSubview(redBackground)
+        view.addSubview(pokemonImage)
         view.addSubview(stackView)
         setConstraints()
         print("DetailVC loaded")
@@ -150,16 +156,16 @@ final class DetailViewController: UIViewController {
         detailViewModel.pokemonDetailSubject
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] details in
-                self?.numberLabel.text = details.id.description
-                self?.typeLabel.text = details.types.first?.type.name.inKorean
+                self?.numberLabel.text = "No. " + details.id.description
+                self?.typeLabel.text = "타입: " + (details.types.first?.type.name.inKorean ?? "???")
                 
                 if details.types.count > 1 {
                     let secondType = details.types[1].type.name.inKorean
                     self?.typeLabel.text?.append(contentsOf: ", \(secondType)")
                 }
                 
-                self?.heightLabel.text = details.height.description
-                self?.weightLabel.text = details.weight.description
+                self?.heightLabel.text = "키: " + String(Double(details.height) / 10.0) + "m"
+                self?.weightLabel.text = "몸무게: " + String(Double(details.weight) / 10.0) + "Kg"
             }, onError: { error in
                 print("error: \(error)")
             }).disposed(by: disposeBag)
@@ -175,23 +181,28 @@ final class DetailViewController: UIViewController {
     }
     
     private func setConstraints() {
-        stackView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(pokemonImage.snp.height).multipliedBy(2)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+        redBackground.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.height.equalToSuperview().dividedBy(2)
         }
         
         pokemonImage.snp.makeConstraints { make in
-            make.top.equalTo(stackView.snp.top).inset(16)
-            make.width.equalToSuperview().dividedBy(2)
+            make.top.equalTo(redBackground.snp.top).inset(16)
+            make.width.equalTo(redBackground.snp.width).dividedBy(2)
             make.height.equalTo(pokemonImage.snp.width)
             make.centerX.equalTo(view.snp.centerX)
         }
         
-        numberAndNameStack.snp.makeConstraints { make in
-            make.centerX.equalTo(pokemonImage.snp.centerX)
-            
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(pokemonImage.snp.bottom).offset(16)
+            make.bottom.equalTo(redBackground.snp.bottom).inset(40)
+            make.horizontalEdges.equalTo(redBackground.snp.horizontalEdges).inset(50)
         }
+        
+        numberLabel.snp.makeConstraints { make in
+            make.trailing.equalTo(pokemonImage.snp.centerX)
+        }
+        
         
     }
 }

@@ -30,8 +30,8 @@
             filePath = "Pokemon/Sources/Views/DetailViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "bind()"
             landmarkType = "7">
          </BreakpointContent>
