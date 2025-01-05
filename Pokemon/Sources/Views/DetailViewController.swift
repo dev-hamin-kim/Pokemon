@@ -152,6 +152,12 @@ final class DetailViewController: UIViewController {
             .subscribe(onNext: { [weak self] details in
                 self?.numberLabel.text = details.id.description
                 self?.typeLabel.text = details.types.first?.type.name.inKorean
+                
+                if details.types.count > 1 {
+                    let secondType = details.types[1].type.name.inKorean
+                    self?.typeLabel.text?.append(contentsOf: ", \(secondType)")
+                }
+                
                 self?.heightLabel.text = details.height.description
                 self?.weightLabel.text = details.weight.description
             }, onError: { error in
