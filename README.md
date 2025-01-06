@@ -38,7 +38,7 @@
 
 # About the Project
 
-Pokemon is a self-educational iOS app project to get myself to be familiar with:
+Pokemon is a self-educational iOS app project to get myself be familiar with:
 - MVVM + RxSwift design pattern with UIKit
 - Code-based UIs in UIKit + SnapKit
 - Retrieving/caching image from an URL by using Kingfisher
